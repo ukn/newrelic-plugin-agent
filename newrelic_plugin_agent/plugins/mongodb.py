@@ -231,7 +231,17 @@ class MongoDB(base.Plugin):
         for database in db_names:
             db = client[database]
             try:
-                if 'username' in databases[database]:
+                if 'delegated_auth' in databases[database]:
+                    auth_db = databases[database].get('delegated_auth')
+                    if auth_db == 'admin':
+                        db.authenticate(self.config['admin_username'],
+                                      self.config.get('admin_password'),
+                                                         source=auth_db)
+                    else:
+                        db.authenticate(databases[database]['username'],
+                                      databases[database].get('password'),
+                                                           source=auth_db)
+                elif 'username' in databases[database]:
                     db.authenticate(databases[database]['username'],
                                     databases[database].get('password'))
                 self.add_datapoints(database, db.command('dbStats'))

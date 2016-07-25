@@ -169,7 +169,7 @@ There are two configuration stanza formats for MongoDB. You must use one or the 
           - database_name_1
           - database_name_2
 
-If your MongoDB server requires authentication, you must provide both admin credentials and database level credentials and the stanza is formatted as a nested array:
+If your MongoDB server requires authentication, you must provide both admin credentials and database level credentials (or use delegated authentication as explained later) and the stanza is formatted as a nested array:
 
 ::
 
@@ -191,6 +191,35 @@ If your MongoDB server requires authentication, you must provide both admin cred
           database_name_2:
             username: foo
             password: bar
+
+
+If you would like to use delegated authentication you need to add auth_db to desired databases. Example below shows unlikely case of three different authentication scenarios:
+database_name_1 uses admin db with admin_username and admin_password to authenticate.
+database_name_2 uses foobar_db and database_name_3 uses its local username and password.
+
+::
+
+      mongodb:
+        name: hostname
+        host: localhost
+        port: 27017
+        #admin_username: foo
+        #admin_password: bar
+        #ssl: False
+        #ssl_keyfile: /path/to/keyfile
+        #ssl_certfile: /path/to/certfile
+        #ssl_cert_reqs: 0  # Should be 0 for ssl.CERT_NONE, 1 for ssl.CERT_OPTIONAL, 2 for ssl.CERT_REQUIRED
+        #ssl_ca_certs: /path/to/cacerts file
+        databases:
+          database_name_1:
+            auth_db:  admin
+          database_name_2:
+            auth_db: foobar_db
+            username: foo_2
+            password: bar_2
+          database_name_3:
+            username: foo_3
+            password: bar_3
 
 Nginx Installation Notes
 ------------------------
