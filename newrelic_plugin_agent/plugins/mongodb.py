@@ -231,8 +231,8 @@ class MongoDB(base.Plugin):
         for database in db_names:
             db = client[database]
             try:
-                if 'delegated_auth' in databases[database]:
-                    auth_db = databases[database].get('delegated_auth')
+                if 'auth_db' in databases[database]:
+                    auth_db = databases[database].get('auth_db')
                     if auth_db == 'admin':
                         db.authenticate(self.config['admin_username'],
                                       self.config.get('admin_password'),
