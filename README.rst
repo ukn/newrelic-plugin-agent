@@ -193,9 +193,13 @@ If your MongoDB server requires authentication, you must provide both admin cred
             password: bar
 
 
-If you would like to use delegated authentication you need to add auth_db to desired databases. Example below shows unlikely case of three different authentication scenarios:
-database_name_1 uses admin db with admin_username and admin_password to authenticate.
-database_name_2 uses foobar_db and database_name_3 uses its local username and password.
+If you would like to use delegated authentication you need to add ``auth_db`` to desired databases.
+
+Example below shows unlikely case of three different authentication scenarios:
+
+- database_name_1 uses credentials defined in admin database (admin_username and admin_password).
+- database_name_2 uses credentials defined in foobar database
+- database_name_3 uses locally defined credentials.
 
 ::
 
